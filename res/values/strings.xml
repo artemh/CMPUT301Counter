@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">herasymc-counter</string>
+    <string name="action_add">Add a counter</string>
+    <string name="action_sort">Sort counters</string>
+    <string name="action_summary">Counter summaries</string>
     <string name="action_settings">Settings</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
