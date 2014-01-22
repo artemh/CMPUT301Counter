@@ -7,11 +7,13 @@ public class CounterModel {
 	
 	private String name;
 	private ArrayList<Date> counts;
+	private Date created;
 	
 	public CounterModel(String name) {
 		super();
 		this.name = name;
 		counts = new ArrayList<Date>();
+		created = new Date();
 	}
 	
 	public String getName() {
@@ -20,6 +22,10 @@ public class CounterModel {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Date getCreationDate() {
+		return created;
 	}
 	
 	public void addCount() {
@@ -42,6 +48,11 @@ public class CounterModel {
 	
 	public void resetCounts() {
 		counts.clear();
+	}
+	
+	@Override
+	public String toString() {
+		return getName() + " (" + getTotalCount() + ")";
 	}
 	
 }
