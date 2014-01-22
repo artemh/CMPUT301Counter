@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="sort_types">
+        <item>By name</item>
+        <item>By date added</item>
+        <item>By total count</item>
+    </array>
+    
+</resources>
