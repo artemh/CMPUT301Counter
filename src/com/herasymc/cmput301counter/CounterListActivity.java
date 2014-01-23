@@ -54,6 +54,12 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 		adapter = new CounterModelArrayAdapter(this, list);
 		view.setAdapter(adapter);
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		io.save(FILENAME, getApplicationContext(), list);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
