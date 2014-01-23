@@ -3,6 +3,7 @@ package com.herasymc.cmput301counter;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -29,7 +30,7 @@ public class CounterViewActivity extends Activity {
 		setContentView(R.layout.activity_counter_view);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		io = (CounterListIO) getIntent().getSerializableExtra("io");
+		io = new CounterListIO();
 		list = (ArrayList<CounterModel>) getIntent().getSerializableExtra("list");
 		id = (int) getIntent().getLongExtra("id", -1);
 		textViewName = (TextView) findViewById(R.id.counter_view_name);
@@ -65,18 +66,45 @@ public class CounterViewActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
+			case android.R.id.home:
+				// This ID represents the Home or Up button. In the case of this
+				// activity, the Up button is shown. Use NavUtils to allow users
+				// to navigate up one level in the application structure. For
+				// more details, see the Navigation pattern on Android Design:
+				//
+				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+				//
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+			case R.id.action_edit:
+				showEditDialog();
+				return true;
+			case R.id.action_reset:
+				showResetDialog();
+				return true;
+			case R.id.action_delete:
+				showDeleteDialog();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+	}
+	
+	private void showEditDialog() {
+		FragmentManager manager = getFragmentManager();
+		EditCounterDialogFragment dialog = EditCounterDialogFragment.newInstance();
+		dialog.show(manager, "fragment_edit");
+	}
+	
+	private void showResetDialog() {
+		FragmentManager manager = getFragmentManager();
+		ResetCounterDialogFragment dialog = ResetCounterDialogFragment.newInstance();
+		dialog.show(manager, "fragment_reset");
+	}
+	private void showDeleteDialog() {
+		FragmentManager manager = getFragmentManager();
+		DeleteCounterDialogFragment dialog = DeleteCounterDialogFragment.newInstance();
+		dialog.show(manager, "fragment_delete");
 	}
 
 }

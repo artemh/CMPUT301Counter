@@ -38,7 +38,6 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 			@Override
 			public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(CounterListActivity.this, CounterViewActivity.class);
-				intent.putExtra("io", io);
 				intent.putExtra("list", list);
 				intent.putExtra("id", id);
 				intent.putExtra("FILENAME", FILENAME);
@@ -48,8 +47,8 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	}
 	
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onResume() {
+		super.onResume();
 		io = new CounterListIO();
 		list = io.load(FILENAME, getApplicationContext());
 		adapter = new CounterModelArrayAdapter(this, list);
