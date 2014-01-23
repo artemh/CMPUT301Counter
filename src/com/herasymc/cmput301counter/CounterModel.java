@@ -1,9 +1,11 @@
 package com.herasymc.cmput301counter;
 
+import android.annotation.SuppressLint;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
 
 public class CounterModel implements Serializable {
 	
@@ -55,9 +57,10 @@ public class CounterModel implements Serializable {
 	
 	public static class Comparators {
 		 public static Comparator<CounterModel> NAME = new Comparator<CounterModel>() {
+				@SuppressLint("DefaultLocale")
 				@Override
 				public int compare(CounterModel lhs, CounterModel rhs) {
-					return lhs.getName().compareTo(rhs.getName());
+					return lhs.getName().toLowerCase().compareTo(rhs.getName().toLowerCase());
 				}
 		 };
 		 public static Comparator<CounterModel> DATE = new Comparator<CounterModel>() {
