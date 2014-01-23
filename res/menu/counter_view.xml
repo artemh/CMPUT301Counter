@@ -7,9 +7,14 @@
         android:title="@string/action_edit" />
     <item
         android:id="@+id/action_reset"
-        android:icon="@drawable/ic_action_cancel"
+        android:icon="@drawable/ic_action_refresh"
         android:showAsAction="ifRoom"
-        android:title="@string/action_reset`" />
+        android:title="@string/action_reset" />
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_action_discard"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_delete" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

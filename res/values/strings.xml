@@ -3,6 +3,7 @@
 
     <string name="app_name">herasymc-counter</string>
     <string name="action_add">Add a counter</string>
+    <string name="action_delete">Delete counter</string>
     <string name="action_edit">Rename counter</string>
     <string name="action_reset">Reset counter</string>
     <string name="action_sort">Sort counters</string>
