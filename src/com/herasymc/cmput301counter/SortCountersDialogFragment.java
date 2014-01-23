@@ -24,7 +24,7 @@ public class SortCountersDialogFragment extends DialogFragment {
 		void onFinishSortDialog(int sortType);
 	}
 
-	public int getSort() {
+	private int getSort() {
 		return getArguments().getInt("sort", 0);
 	}
 	

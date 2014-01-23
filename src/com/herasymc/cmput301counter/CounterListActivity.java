@@ -9,7 +9,6 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.herasymc.cmput301counter.AddCounterDialogFragment.AddCounterDialogListener;
@@ -18,7 +17,7 @@ import com.herasymc.cmput301counter.SortCountersDialogFragment.SortCountersDialo
 public class CounterListActivity extends Activity implements AddCounterDialogListener, SortCountersDialogListener {
 	
 	private ArrayList<CounterModel> list;
-	private ArrayAdapter<CounterModel> adapter;
+	private CounterModelArrayAdapter adapter;
 	private ListView view;
 	private Comparator<CounterModel> sortType;
 	private int sortID;
@@ -29,10 +28,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 		setContentView(R.layout.activity_counter_list);
 		list = new ArrayList<CounterModel>();
 		view = (ListView) findViewById(R.id.countersList);
-		adapter = new ArrayAdapter<CounterModel>(
-				this,
-				android.R.layout.simple_list_item_1,
-				list );
+		adapter = new CounterModelArrayAdapter(this, list);
 		view.setAdapter(adapter);
 		sortType = CounterModel.Comparators.NAME;
 	}

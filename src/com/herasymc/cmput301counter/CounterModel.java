@@ -51,11 +51,6 @@ public class CounterModel {
 		counts.clear();
 	}
 	
-	@Override
-	public String toString() {
-		return getName() + " (" + getTotalCount() + ")";
-	}
-	
 	public static class Comparators {
 		 public static Comparator<CounterModel> NAME = new Comparator<CounterModel>() {
 				@Override
