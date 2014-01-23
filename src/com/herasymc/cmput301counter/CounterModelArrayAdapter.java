@@ -15,7 +15,7 @@ public class CounterModelArrayAdapter extends ArrayAdapter<CounterModel> {
 	private final ArrayList<CounterModel> objects;
 	
 	public CounterModelArrayAdapter(Context context, ArrayList<CounterModel> objects) {
-		super(context, R.layout.counterlayout, objects);
+		super(context, R.layout.layout_list, objects);
 		this.context = context;
 		this.objects = objects;
 	}
@@ -23,7 +23,7 @@ public class CounterModelArrayAdapter extends ArrayAdapter<CounterModel> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.counterlayout, parent, false);
+		View view = inflater.inflate(R.layout.layout_list, parent, false);
 		TextView textViewName = (TextView) view.findViewById(R.id.counterName);
 		textViewName.setText(objects.get(position).getName());
 		TextView textViewDate = (TextView) view.findViewById(R.id.counterDate);
