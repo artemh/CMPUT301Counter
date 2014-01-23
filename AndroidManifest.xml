@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.herasymc.cmput301counter.CounterViewActivity"
+            android:label="@string/title_activity_counter_view"
+            android:parentActivityName="com.herasymc.cmput301counter.CounterListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.herasymc.cmput301counter.CounterListActivity" />
+        </activity>
     </application>
 
 </manifest>

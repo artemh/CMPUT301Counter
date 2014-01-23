@@ -1,11 +1,13 @@
 package com.herasymc.cmput301counter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
-public class CounterModel {
+public class CounterModel implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private ArrayList<Date> counts;
 	private Date created;
