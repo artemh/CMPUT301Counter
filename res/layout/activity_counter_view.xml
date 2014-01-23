@@ -8,6 +8,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".CounterViewActivity" >
 
+    <TextView
+        android:id="@+id/counter_view_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textSize="30sp" />
+    
+    <TextView
+        android:id="@+id/counter_view_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="70sp" />
+    
     <Button
         android:id="@+id/button_count"
         style="?android:attr/buttonStyle"
