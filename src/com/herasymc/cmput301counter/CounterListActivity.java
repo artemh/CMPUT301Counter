@@ -73,12 +73,14 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	public void onFinishSortDialog(int type) {
 		if (type == 1) {
 			sortType = CounterModel.Comparators.DATE;
+			sortID = type;
 		} else if (type == 2) {
 			sortType = CounterModel.Comparators.COUNT;
+			sortID = type;
 		} else {
 			sortType = CounterModel.Comparators.NAME;
+			sortID = type;
 		}
-		sortID = type;
 		Collections.sort(list, sortType);
 		adapter.notifyDataSetChanged();
 	}
