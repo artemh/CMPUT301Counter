@@ -51,6 +51,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 		super.onResume();
 		io = new CounterListIO();
 		list = io.load(FILENAME, getApplicationContext());
+		sort(sortID);
 		adapter = new CounterModelArrayAdapter(this, list);
 		view.setAdapter(adapter);
 	}
@@ -96,6 +97,11 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	
 	@Override
 	public void onFinishSortDialog(int type) {
+		sort(type);
+		adapter.notifyDataSetChanged();
+	}
+	
+	private void sort(int type) {
 		if (type == 1) {
 			sortType = CounterModel.Comparators.DATE;
 			sortID = type;
@@ -107,7 +113,6 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 			sortID = type;
 		}
 		Collections.sort(list, sortType);
-		adapter.notifyDataSetChanged();
 	}
 	
 	private void showAddDialog() {
