@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">herasymc-counter</string>
@@ -16,6 +15,5 @@
     <string name="dialog_add_hint">Counter name</string>
     <string name="dialog_sort_title">Sort counters</string>
     <string name="title_activity_counter_view">View Counter</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>
