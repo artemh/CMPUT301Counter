@@ -41,6 +41,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 				intent.putExtra("io", io);
 				intent.putExtra("list", list);
 				intent.putExtra("id", id);
+				intent.putExtra("FILENAME", FILENAME);
 				startActivity(intent);
 			}
 		});
