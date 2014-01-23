@@ -1,6 +1,7 @@
 package com.herasymc.cmput301counter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 public class CounterModel {
@@ -53,6 +54,27 @@ public class CounterModel {
 	@Override
 	public String toString() {
 		return getName() + " (" + getTotalCount() + ")";
+	}
+	
+	public static class Comparators {
+		 public static Comparator<CounterModel> NAME = new Comparator<CounterModel>() {
+				@Override
+				public int compare(CounterModel lhs, CounterModel rhs) {
+					return lhs.getName().compareTo(rhs.getName());
+				}
+		 };
+		 public static Comparator<CounterModel> DATE = new Comparator<CounterModel>() {
+				@Override
+				public int compare(CounterModel lhs, CounterModel rhs) {
+					return lhs.getCreationDate().compareTo(rhs.getCreationDate());
+				}
+		 };
+		 public static Comparator<CounterModel> COUNT = new Comparator<CounterModel>() {
+				@Override
+				public int compare(CounterModel lhs, CounterModel rhs) {
+					return Double.compare(lhs.getTotalCount(), rhs.getTotalCount());
+				}
+		 };
 	}
 	
 }

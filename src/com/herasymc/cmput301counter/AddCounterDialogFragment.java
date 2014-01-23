@@ -22,10 +22,6 @@ public class AddCounterDialogFragment extends DialogFragment implements OnEditor
 	
 	EditText input;
 	
-	public interface AddCounterDialogListener {
-		void onFinishAddDialog(String inputText);
-	}
-	
 	public AddCounterDialogFragment() {
 		// Empty constructor
 	}
@@ -33,6 +29,10 @@ public class AddCounterDialogFragment extends DialogFragment implements OnEditor
 	public static AddCounterDialogFragment newInstance() {
 		AddCounterDialogFragment fragment = new AddCounterDialogFragment();
 		return fragment;
+	}
+	
+	public interface AddCounterDialogListener {
+		void onFinishAddDialog(String inputText);
 	}
 	
 	@Override

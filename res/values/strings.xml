@@ -10,5 +10,6 @@
     <string name="button_ok">OK</string>
     <string name="dialog_add_title">Add a counter</string>
     <string name="dialog_add_hint">Counter name</string>
+    <string name="dialog_sort_title">Sort counters</string>
 
 </resources>

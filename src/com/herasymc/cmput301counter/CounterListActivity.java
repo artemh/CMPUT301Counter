@@ -13,25 +13,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.herasymc.cmput301counter.AddCounterDialogFragment.AddCounterDialogListener;
+import com.herasymc.cmput301counter.SortCountersDialogFragment.SortCountersDialogListener;
 
-public class CounterListActivity extends Activity implements AddCounterDialogListener {
+public class CounterListActivity extends Activity implements AddCounterDialogListener, SortCountersDialogListener {
 	
-	private ArrayList<CounterModel> countersList;
+	private ArrayList<CounterModel> list;
+	private ArrayAdapter<CounterModel> adapter;
 	private ListView view;
-	private int sort;
+	private Comparator<CounterModel> sortType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_counter_list);
-		countersList = new ArrayList<CounterModel>();
+		list = new ArrayList<CounterModel>();
 		view = (ListView) findViewById(R.id.countersList);
-		sort = 0;
-		ArrayAdapter<CounterModel> adapter = new ArrayAdapter<CounterModel>(
+		adapter = new ArrayAdapter<CounterModel>(
 				this,
 				android.R.layout.simple_list_item_1,
-				countersList );
+				list );
 		view.setAdapter(adapter);
+		sortType = CounterModel.Comparators.NAME;
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.action_sort:
-	        	//
+	        	showSortDialog();
 	            return true;
 	        case R.id.action_add:
 	            showAddDialog();
@@ -61,8 +63,22 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	
 	@Override
 	public void onFinishAddDialog(String inputText) {
-		countersList.add(new CounterModel(inputText));
-		sortList();
+		list.add(new CounterModel(inputText));
+		Collections.sort(list, sortType);
+		adapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public void onFinishSortDialog(int type) {
+		if (type == 1) {
+			sortType = CounterModel.Comparators.DATE;
+		} else if (type == 2) {
+			sortType = CounterModel.Comparators.COUNT;
+		} else {
+			sortType = CounterModel.Comparators.NAME;
+		}
+		Collections.sort(list, sortType);
+		adapter.notifyDataSetChanged();
 	}
 	
 	private void showAddDialog() {
@@ -71,21 +87,9 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 		dialog.show(manager, "fragment_add");
 	}
 	
-	private void sortList() {
-		Collections.sort(countersList, new Comparator<CounterModel>() {
-			@Override
-			public int compare(CounterModel lhs, CounterModel rhs) {
-				int val = 0;
-				switch(sort) {
-					case 0: // sort by name
-						val =  lhs.getName().compareTo(rhs.getName());
-					case 1: // sort by date added
-						val =  lhs.getCreationDate().compareTo(rhs.getCreationDate());
-					case 2: // sort by count
-						val =  Double.compare(lhs.getTotalCount(), rhs.getTotalCount());
-				}
-				return val;
-			}
-		});
+	private void showSortDialog() {
+		FragmentManager manager = getFragmentManager();
+		SortCountersDialogFragment dialog = SortCountersDialogFragment.newInstance();
+		dialog.show(manager, "fragment_sort");
 	}
 }
