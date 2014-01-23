@@ -71,7 +71,7 @@ public class CounterModel implements Serializable {
 		 public static Comparator<CounterModel> COUNT = new Comparator<CounterModel>() {
 				@Override
 				public int compare(CounterModel lhs, CounterModel rhs) {
-					return Double.compare(lhs.getTotalCount(), rhs.getTotalCount());
+					return Double.compare(rhs.getTotalCount(), lhs.getTotalCount());
 				}
 		 };
 	}
