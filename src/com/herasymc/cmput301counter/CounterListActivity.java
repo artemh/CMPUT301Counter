@@ -21,6 +21,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	private ArrayAdapter<CounterModel> adapter;
 	private ListView view;
 	private Comparator<CounterModel> sortType;
+	private int sortID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 		} else {
 			sortType = CounterModel.Comparators.NAME;
 		}
+		sortID = type;
 		Collections.sort(list, sortType);
 		adapter.notifyDataSetChanged();
 	}
@@ -89,7 +91,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	
 	private void showSortDialog() {
 		FragmentManager manager = getFragmentManager();
-		SortCountersDialogFragment dialog = SortCountersDialogFragment.newInstance();
+		SortCountersDialogFragment dialog = SortCountersDialogFragment.newInstance(sortID);
 		dialog.show(manager, "fragment_sort");
 	}
 }

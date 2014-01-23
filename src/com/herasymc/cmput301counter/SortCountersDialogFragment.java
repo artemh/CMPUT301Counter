@@ -12,8 +12,11 @@ public class SortCountersDialogFragment extends DialogFragment {
 		//
 	}
 	
-	public static SortCountersDialogFragment newInstance() {
+	public static SortCountersDialogFragment newInstance(int sortID) {
 		SortCountersDialogFragment fragment = new SortCountersDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putInt("sort", sortID);
+		fragment.setArguments(bundle);
 		return fragment;
 	}
 	
@@ -21,11 +24,15 @@ public class SortCountersDialogFragment extends DialogFragment {
 		void onFinishSortDialog(int sortType);
 	}
 
+	public int getSort() {
+		return getArguments().getInt("sort", 0);
+	}
+	
 	@Override
 	public Dialog onCreateDialog(Bundle SavedInstanceState) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setTitle(R.string.dialog_sort_title);
-		alertDialogBuilder.setItems(R.array.sort_types, new DialogInterface.OnClickListener() {
+		alertDialogBuilder.setSingleChoiceItems(R.array.sort_types, getSort(), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				SortCountersDialogListener listener = (SortCountersDialogListener) getActivity();
 				listener.onFinishSortDialog(which);
