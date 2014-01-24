@@ -12,12 +12,14 @@ public class Counter implements Serializable {
 	private String name;
 	private ArrayList<Date> counts;
 	private Date created;
+	private boolean reset;
 	
 	public Counter(String name) {
 		super();
 		this.name = name;
 		counts = new ArrayList<Date>();
 		created = new Date();
+		reset = false;
 	}
 	
 	public String getName() {
@@ -40,6 +42,10 @@ public class Counter implements Serializable {
 		return counts.size();
 	}
 	
+	public boolean hasBeenReset() {
+		return reset;
+	}
+	
 	public int getCount(Date begin, Date end) {
 		int count = 0;
 		for (Date date : counts) {
@@ -52,6 +58,7 @@ public class Counter implements Serializable {
 	
 	public void resetCounts() {
 		counts.clear();
+		reset = true;
 	}
 	
 	public static class Comparators {
