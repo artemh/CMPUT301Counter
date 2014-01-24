@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CounterViewActivity extends Activity implements EditCounterDialogListener, ResetCounterDialogListener {
+public class CounterViewActivity extends Activity implements DeleteCounterDialogListener, EditCounterDialogListener, ResetCounterDialogListener {
 
 	private static final String FILENAME = "list.dat";
 	private ArrayList<CounterModel> list;
@@ -101,7 +101,14 @@ public class CounterViewActivity extends Activity implements EditCounterDialogLi
 	public void onFinishResetDialog() {
 		list.get(id).resetCounts();
 		io.save(FILENAME, getApplicationContext(), list);
-		textViewCount.setText(list.get(id).getTotalCount());
+		textViewCount.setText(Long.toString(list.get(id).getTotalCount()));
+	}
+	
+	@Override
+	public void onFinishDeleteDialog() {
+		list.remove(id);
+		io.save(FILENAME, getApplicationContext(), list);
+		this.finish();
 	}
 	
 	private void showEditDialog() {

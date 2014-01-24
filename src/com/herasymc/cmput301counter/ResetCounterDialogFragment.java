@@ -21,14 +21,14 @@ public class ResetCounterDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-		alertDialogBuilder.setTitle(R.string.dialog_edit_title);
-		
+		alertDialogBuilder.setTitle(R.string.dialog_reset_title);
 		TextView text = new TextView(getActivity());
-		text.setText(R.string.dialog_reset_title);
+		text.setText(R.string.dialog_reset_body);
+		text.setPadding(30, 30, 30, 30);
+		text.setTextSize(18);
 		alertDialogBuilder.setView(text);
 		
 		alertDialogBuilder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				ResetCounterDialogListener listener = (ResetCounterDialogListener) getActivity();
