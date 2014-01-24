@@ -19,10 +19,6 @@ public class SortCountersDialogFragment extends DialogFragment {
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-	
-	public interface SortCountersDialogListener {
-		void onFinishSortDialog(int sortType);
-	}
 
 	private int getSort() {
 		return getArguments().getInt("sort", 0);

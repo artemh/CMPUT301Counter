@@ -15,9 +15,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.herasymc.cmput301counter.AddCounterDialogFragment.AddCounterDialogListener;
-import com.herasymc.cmput301counter.SortCountersDialogFragment.SortCountersDialogListener;
-
 public class CounterListActivity extends Activity implements AddCounterDialogListener, SortCountersDialogListener {
 	
 	private int sortID = 0;

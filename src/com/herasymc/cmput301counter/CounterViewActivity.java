@@ -13,9 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.herasymc.cmput301counter.EditCounterDialogFragment.EditCounterDialogListener;
-
-public class CounterViewActivity extends Activity implements EditCounterDialogListener {
+public class CounterViewActivity extends Activity implements EditCounterDialogListener, ResetCounterDialogListener {
 
 	private static final String FILENAME = "list.dat";
 	private ArrayList<CounterModel> list;
@@ -97,6 +95,13 @@ public class CounterViewActivity extends Activity implements EditCounterDialogLi
 		list.get(id).setName(inputText);
 		io.save(FILENAME, getApplicationContext(), list);
 		textViewName.setText(inputText);
+	}
+	
+	@Override
+	public void onFinishResetDialog() {
+		list.get(id).resetCounts();
+		io.save(FILENAME, getApplicationContext(), list);
+		textViewCount.setText(list.get(id).getTotalCount());
 	}
 	
 	private void showEditDialog() {

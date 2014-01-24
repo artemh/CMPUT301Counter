@@ -24,10 +24,6 @@ public class EditCounterDialogFragment extends DialogFragment implements OnEdito
 		return fragment;
 	}
 	
-	public interface EditCounterDialogListener {
-		void onFinishEditDialog(String inputText);
-	}
-	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
