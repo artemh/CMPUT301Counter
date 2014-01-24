@@ -13,7 +13,11 @@
     <string name="button_ok">OK</string>
     <string name="dialog_add_title">Add a counter</string>
     <string name="dialog_add_hint">Counter name</string>
+    <string name="dialog_delete_title">Delete counter</string>
+    <string name="dialog_delete_body">Are you sure you want to delete this counter? This cannot be undone.</string>
     <string name="dialog_edit_title">Edit counter</string>
+    <string name="dialog_reset_title">Reset counter</string>
+    <string name="dialog_reset_body">Are you sure you want to reset this counter? This cannot be undone.</string>
     <string name="dialog_sort_title">Sort counters</string>
     <string name="title_activity_counter_view">View Counter</string>
 
