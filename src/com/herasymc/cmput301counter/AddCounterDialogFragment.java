@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -38,7 +39,9 @@ public class AddCounterDialogFragment extends DialogFragment implements OnEditor
 		
 		input = new EditText(getActivity());
 		input.setHint(R.string.dialog_add_hint);
+		input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 		alertDialogBuilder.setView(input);
+		input.requestFocus();
 		
 		alertDialogBuilder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
 			
