@@ -16,12 +16,12 @@ public class CounterListIO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<CounterModel> load(String file, Context context) {
-		ArrayList<CounterModel> l = null;
+	public ArrayList<Counter> load(String file, Context context) {
+		ArrayList<Counter> l = null;
 		try {
 			FileInputStream f = context.openFileInput(file);
 			ObjectInputStream o = new ObjectInputStream(f);
-			l = (ArrayList<CounterModel>)o.readObject();
+			l = (ArrayList<Counter>) o.readObject();
 			o.close();
 			f.close();
 		} catch (FileNotFoundException e) {
@@ -32,13 +32,13 @@ public class CounterListIO implements Serializable {
 			e.printStackTrace();
 		}
 		if (l == null) {
-			return new ArrayList<CounterModel>();
+			return new ArrayList<Counter>();
 		} else {
 			return l;
 		}
 	}
 	
-	public void save(String file, Context context, ArrayList<CounterModel> list) {
+	public void save(String file, Context context, ArrayList<Counter> list) {
 		try {
 			FileOutputStream f = context.openFileOutput(file, Context.MODE_PRIVATE);
 			ObjectOutputStream o = new ObjectOutputStream(f);

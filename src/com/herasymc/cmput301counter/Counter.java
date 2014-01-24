@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
-public class CounterModel implements Serializable {
+public class Counter implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private ArrayList<Date> counts;
 	private Date created;
 	
-	public CounterModel(String name) {
+	public Counter(String name) {
 		super();
 		this.name = name;
 		counts = new ArrayList<Date>();
@@ -55,22 +55,22 @@ public class CounterModel implements Serializable {
 	}
 	
 	public static class Comparators {
-		 public static Comparator<CounterModel> NAME = new Comparator<CounterModel>() {
+		 public static Comparator<Counter> NAME = new Comparator<Counter>() {
 				@SuppressLint("DefaultLocale")
 				@Override
-				public int compare(CounterModel lhs, CounterModel rhs) {
+				public int compare(Counter lhs, Counter rhs) {
 					return lhs.getName().toLowerCase().compareTo(rhs.getName().toLowerCase());
 				}
 		 };
-		 public static Comparator<CounterModel> DATE = new Comparator<CounterModel>() {
+		 public static Comparator<Counter> DATE = new Comparator<Counter>() {
 				@Override
-				public int compare(CounterModel lhs, CounterModel rhs) {
+				public int compare(Counter lhs, Counter rhs) {
 					return lhs.getCreationDate().compareTo(rhs.getCreationDate());
 				}
 		 };
-		 public static Comparator<CounterModel> COUNT = new Comparator<CounterModel>() {
+		 public static Comparator<Counter> COUNT = new Comparator<Counter>() {
 				@Override
-				public int compare(CounterModel lhs, CounterModel rhs) {
+				public int compare(Counter lhs, Counter rhs) {
 					return Double.compare(rhs.getTotalCount(), lhs.getTotalCount());
 				}
 		 };

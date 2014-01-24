@@ -16,7 +16,7 @@ import android.widget.TextView;
 public class CounterViewActivity extends Activity implements DeleteCounterDialogListener, EditCounterDialogListener, ResetCounterDialogListener {
 
 	private static final String FILENAME = "list.dat";
-	private ArrayList<CounterModel> list;
+	private ArrayList<Counter> list;
 	private CounterListIO io;
 	private TextView textViewName;
 	private TextView textViewCount;
@@ -31,7 +31,7 @@ public class CounterViewActivity extends Activity implements DeleteCounterDialog
 		// Show the Up button in the action bar.
 		setupActionBar();
 		io = new CounterListIO();
-		list = (ArrayList<CounterModel>) getIntent().getSerializableExtra("list");
+		list = (ArrayList<Counter>) getIntent().getSerializableExtra("list");
 		id = (int) getIntent().getLongExtra("id", -1);
 		textViewName = (TextView) findViewById(R.id.counter_view_name);
 		textViewCount = (TextView) findViewById(R.id.counter_view_count);

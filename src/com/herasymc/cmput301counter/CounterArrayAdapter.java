@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class CounterModelArrayAdapter extends ArrayAdapter<CounterModel> {
+public class CounterArrayAdapter extends ArrayAdapter<Counter> {
 
 	private final Context context;
-	private final ArrayList<CounterModel> objects;
+	private final ArrayList<Counter> objects;
 	
-	public CounterModelArrayAdapter(Context context, ArrayList<CounterModel> objects) {
+	public CounterArrayAdapter(Context context, ArrayList<Counter> objects) {
 		super(context, R.layout.layout_list, objects);
 		this.context = context;
 		this.objects = objects;

@@ -7,7 +7,9 @@ import java.util.Comparator;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,12 +19,12 @@ import android.widget.ListView;
 
 public class CounterListActivity extends Activity implements AddCounterDialogListener, SortCountersDialogListener {
 	
-	private int sortID = 0;
+	private int sortID;
 	private static final String FILENAME = "list.dat";
-	private ArrayList<CounterModel> list;
+	private ArrayList<Counter> list;
 	private CounterListIO io;
-	private CounterModelArrayAdapter adapter;
-	private Comparator<CounterModel> sortType = CounterModel.Comparators.NAME;
+	private CounterArrayAdapter adapter;
+	private Comparator<Counter> sortType = Counter.Comparators.COUNT;
 	private ListView view;
 
 	@Override
@@ -48,8 +50,10 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 		super.onResume();
 		io = new CounterListIO();
 		list = io.load(FILENAME, getApplicationContext());
+		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+	    sortID = s.getInt("sortID", 2);
 		sort(sortID);
-		adapter = new CounterModelArrayAdapter(this, list);
+		adapter = new CounterArrayAdapter(this, list);
 		view.setAdapter(adapter);
 	}
 	
@@ -77,7 +81,10 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	            showAddDialog();
 	            return true;
 	        case R.id.action_summary:
-	        	// Implement summary
+	        	Intent intent = new Intent(CounterListActivity.this, CounterSummaryActivity.class);
+				intent.putExtra("list", list);
+				intent.putExtra("id", -1);
+	        	startActivity(intent);
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -86,8 +93,8 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	
 	@Override
 	public void onFinishAddDialog(String inputText) {
-		list.add(new CounterModel(inputText));
-		Collections.sort(list, sortType);
+		list.add(new Counter(inputText));
+		sort(sortID);
 		adapter.notifyDataSetChanged();
 		io.save(FILENAME, getApplicationContext(), list);
 	}
@@ -95,18 +102,23 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	@Override
 	public void onFinishSortDialog(int type) {
 		sort(type);
+		SharedPreferences s = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+	    SharedPreferences.Editor e = s.edit();
+	    e.putInt("sortID", sortID);
+	    e.commit();
 		adapter.notifyDataSetChanged();
+		io.save(FILENAME, getApplicationContext(), list);
 	}
 	
 	private void sort(int type) {
 		if (type == 1) {
-			sortType = CounterModel.Comparators.DATE;
+			sortType = Counter.Comparators.DATE;
 			sortID = type;
 		} else if (type == 2) {
-			sortType = CounterModel.Comparators.COUNT;
+			sortType = Counter.Comparators.COUNT;
 			sortID = type;
 		} else {
-			sortType = CounterModel.Comparators.NAME;
+			sortType = Counter.Comparators.NAME;
 			sortID = type;
 		}
 		Collections.sort(list, sortType);

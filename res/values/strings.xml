@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">herasymc-counter</string>
@@ -20,5 +21,10 @@
     <string name="dialog_reset_body">Are you sure you want to reset this counter? This cannot be undone.</string>
     <string name="dialog_sort_title">Sort counters</string>
     <string name="title_activity_counter_view">View Counter</string>
+    <string name="title_activity_counter_summary">Summary</string>
+    <string name="title_summary_hour">By hour</string>
+    <string name="title_summary_day">By day</string>
+    <string name="title_summary_week">By week</string>
+    <string name="title_summary_month">By month</string>
 
 </resources>
