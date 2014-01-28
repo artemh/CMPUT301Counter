@@ -14,10 +14,10 @@ public class CounterArrayAdapter extends ArrayAdapter<Counter> {
 	private final Context context;
 	private final ArrayList<Counter> objects;
 	
-	public CounterArrayAdapter(Context context, ArrayList<Counter> objects) {
-		super(context, R.layout.layout_list, objects);
+	public CounterArrayAdapter(Context context, CounterList list) {
+		super(context, R.layout.layout_list, list.getList());
 		this.context = context;
-		this.objects = objects;
+		this.objects = list.getList();
 	}
 	
 	@Override

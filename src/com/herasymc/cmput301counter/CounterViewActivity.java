@@ -1,7 +1,5 @@
 package com.herasymc.cmput301counter;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -15,23 +13,19 @@ import android.widget.TextView;
 
 public class CounterViewActivity extends Activity implements DeleteCounterDialogListener, EditCounterDialogListener, ResetCounterDialogListener {
 
-	private static final String FILENAME = "list.dat";
-	private ArrayList<Counter> list;
-	private CounterListIO io;
+	private CounterList list;
 	private TextView textViewName;
 	private TextView textViewCount;
 	private Button button;
 	private int id;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_counter_view);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		io = new CounterListIO();
-		list = (ArrayList<Counter>) getIntent().getSerializableExtra("list");
+		list = CounterList.getInstance(getApplicationContext());
 		id = (int) getIntent().getLongExtra("id", -1);
 		textViewName = (TextView) findViewById(R.id.counter_view_name);
 		textViewCount = (TextView) findViewById(R.id.counter_view_count);
@@ -42,9 +36,8 @@ public class CounterViewActivity extends Activity implements DeleteCounterDialog
 			
 			@Override
 			public void onClick(View v) {
-				list.get(id).addCount();
+				list.increment(id);
 				textViewCount.setText(Long.toString(list.get(id).getTotalCount()));
-				io.save(FILENAME, getApplicationContext(), list);
 			}
 		});
  	}
@@ -92,22 +85,19 @@ public class CounterViewActivity extends Activity implements DeleteCounterDialog
 	
 	@Override
 	public void onFinishEditDialog(String inputText) {
-		list.get(id).setName(inputText);
-		io.save(FILENAME, getApplicationContext(), list);
+		list.rename(id, inputText);
 		textViewName.setText(inputText);
 	}
 	
 	@Override
 	public void onFinishResetDialog() {
-		list.get(id).resetCounts();
-		io.save(FILENAME, getApplicationContext(), list);
+		list.reset(id);
 		textViewCount.setText(Long.toString(list.get(id).getTotalCount()));
 	}
 	
 	@Override
 	public void onFinishDeleteDialog() {
 		list.remove(id);
-		io.save(FILENAME, getApplicationContext(), list);
 		this.finish();
 	}
 	

@@ -1,25 +1,32 @@
 package com.herasymc.cmput301counter;
 
-import android.annotation.SuppressLint;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+
+import android.annotation.SuppressLint;
 
 public class Counter implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private ArrayList<Date> counts;
-	private Date created;
-	private boolean reset;
+	private ArrayList<Calendar> counts;
+	private Calendar created;
+	private Calendar reset;
 	
 	public Counter(String name) {
 		super();
 		this.name = name;
-		counts = new ArrayList<Date>();
-		created = new Date();
-		reset = false;
+		if (name.isEmpty()) {
+			this.name = "New Counter";
+		}
+		counts = new ArrayList<Calendar>();
+		created = Calendar.getInstance();
+		reset = (Calendar) created.clone();
 	}
 	
 	public String getName() {
@@ -30,12 +37,12 @@ public class Counter implements Serializable {
 		this.name = name;
 	}
 	
-	public Date getCreationDate() {
+	public Calendar getCreationDate() {
 		return created;
 	}
 	
 	public void addCount() {
-		counts.add(new Date());
+		counts.add(Calendar.getInstance());
 	}
 	
 	public int getTotalCount() {
@@ -43,22 +50,46 @@ public class Counter implements Serializable {
 	}
 	
 	public boolean hasBeenReset() {
-		return reset;
+		if (created.equals(reset)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
-	public int getCount(Date begin, Date end) {
-		int count = 0;
-		for (Date date : counts) {
-			if (date.after(begin) && date.before(end)) {
-				count++;
+	public HashMap<String, Integer> getCountSummary(int interval) {
+		HashMap<String, Integer> counts = new HashMap<String, Integer>();
+		SimpleDateFormat format;
+		switch(interval) {
+		case 0: // per hour
+			format = new SimpleDateFormat("MMMM dd, yyyy - KK:00 aa", Locale.US);
+			break;
+		case 1: // per day
+			format = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+			break;
+		case 2: // per week
+			format = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+			break;
+		default: // per month
+			format = new SimpleDateFormat("MMMM, yyyy", Locale.US);
+			break;
+		}
+		counts.put(format.format(this.counts.get(0).getTime()), 1);
+		for (int i = 1; i < this.counts.size(); ++i) {
+			if (format.format(this.counts.get(i).getTime()).equals(format.format(this.counts.get(i-1).getTime()))) {
+				int count = counts.get(format.format(this.counts.get(i).getTime())).intValue();
+				counts.remove(format.format(this.counts.get(i).getTime()));
+				counts.put(format.format(this.counts.get(i).getTime()), count + 1);
+			} else {
+				counts.put(format.format(this.counts.get(i).getTime()), 1);
 			}
 		}
-		return count;
+		return counts;
 	}
 	
 	public void resetCounts() {
 		counts.clear();
-		reset = true;
+		reset = Calendar.getInstance();
 	}
 	
 	public static class Comparators {

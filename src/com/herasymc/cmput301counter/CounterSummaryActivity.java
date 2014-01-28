@@ -1,7 +1,5 @@
 package com.herasymc.cmput301counter;
 
-import java.util.ArrayList;
-
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,16 +21,15 @@ public class CounterSummaryActivity extends FragmentActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	private ArrayList<Counter> list;
+	private CounterList list;
 	private int id;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_counter_summary);
 
-		list = (ArrayList<Counter>) getIntent().getSerializableExtra("list");
+		list = CounterList.getInstance(getApplicationContext());
 		id = (int) getIntent().getLongExtra("id", -1); // if id is -1, summarize all counters
 		
 		// Set up the action bar to show a dropdown list.

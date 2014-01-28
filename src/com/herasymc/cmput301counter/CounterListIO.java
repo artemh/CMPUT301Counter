@@ -6,14 +6,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.content.Context;
 
-public class CounterListIO implements Serializable {
+public class CounterListIO {
 	
-	private static final long serialVersionUID = 1L;
+	private static CounterListIO instance = null;
+	
+	private CounterListIO() {
+		//
+	}
+	
+	public static CounterListIO getInstance() {
+		if (instance == null) {
+			instance = new CounterListIO();
+		}
+		return instance;
+	}
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Counter> load(String file, Context context) {
