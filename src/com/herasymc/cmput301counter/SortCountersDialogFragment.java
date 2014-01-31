@@ -15,13 +15,13 @@ public class SortCountersDialogFragment extends DialogFragment {
 	public static SortCountersDialogFragment newInstance(int sortID) {
 		SortCountersDialogFragment fragment = new SortCountersDialogFragment();
 		Bundle bundle = new Bundle();
-		bundle.putInt("sort", sortID);
+		bundle.putInt("sortType", sortID);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
 
 	private int getSort() {
-		return getArguments().getInt("sort", 0);
+		return getArguments().getInt("sortType", 0);
 	}
 	
 	@Override

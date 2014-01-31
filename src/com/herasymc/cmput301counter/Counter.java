@@ -1,32 +1,55 @@
+/*
+ * CMPUT 301 Winter 2014 Assignment 1 - Counter App for Android
+ * 
+ * Copyright 2014 Artem Herasymchuk
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ---
+ * 
+ * Counter.java
+ * 
+ */
+
 package com.herasymc.cmput301counter;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 
 public class Counter implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	private int count;
+	private int id;
+	private static int idCounter = 0;
 	private String name;
-	private ArrayList<Calendar> counts;
-	private Calendar created;
-	private Calendar reset;
+	private Date created;
+	private Date reset;
 	
+	/* Initialize the counter, sets created/reset dates to now */
 	public Counter(String name) {
 		super();
 		this.name = name;
 		if (name.isEmpty()) {
 			this.name = "New Counter";
 		}
-		counts = new ArrayList<Calendar>();
-		created = Calendar.getInstance();
-		reset = (Calendar) created.clone();
+		count = 0;
+		created = new Date();
+		reset = (Date) created.clone();
+		id = idCounter++;
 	}
 	
 	public String getName() {
@@ -37,16 +60,26 @@ public class Counter implements Serializable {
 		this.name = name;
 	}
 	
-	public Calendar getCreationDate() {
+	public Date getCreationDate() {
 		return created;
 	}
 	
-	public void addCount() {
-		counts.add(Calendar.getInstance());
+	public Date getResetDate() {
+		return reset;
 	}
 	
+	public int getID() {
+		return id;
+	}
+	
+	// Increments counter
+	public void addCount() {
+		count++;
+	}
+	
+	// Get counter value
 	public int getTotalCount() {
-		return counts.size();
+		return count;
 	}
 	
 	public boolean hasBeenReset() {
@@ -57,43 +90,18 @@ public class Counter implements Serializable {
 		}
 	}
 	
-	public HashMap<String, Integer> getCountSummary(int interval) {
-		HashMap<String, Integer> counts = new HashMap<String, Integer>();
-		SimpleDateFormat format;
-		switch(interval) {
-		case 0: // per hour
-			format = new SimpleDateFormat("MMMM dd, yyyy - KK:00 aa", Locale.US);
-			break;
-		case 1: // per day
-			format = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
-			break;
-		case 2: // per week
-			format = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
-			break;
-		default: // per month
-			format = new SimpleDateFormat("MMMM, yyyy", Locale.US);
-			break;
-		}
-		counts.put(format.format(this.counts.get(0).getTime()), 1);
-		for (int i = 1; i < this.counts.size(); ++i) {
-			if (format.format(this.counts.get(i).getTime()).equals(format.format(this.counts.get(i-1).getTime()))) {
-				int count = counts.get(format.format(this.counts.get(i).getTime())).intValue();
-				counts.remove(format.format(this.counts.get(i).getTime()));
-				counts.put(format.format(this.counts.get(i).getTime()), count + 1);
-			} else {
-				counts.put(format.format(this.counts.get(i).getTime()), 1);
-			}
-		}
-		return counts;
-	}
-	
 	public void resetCounts() {
-		counts.clear();
-		reset = Calendar.getInstance();
+		count = 0;
+		reset = new Date();
 	}
 	
+	/* 
+	 * comparators for sorting a list of Counters, useful for sorting the
+	 * counters in a GUI
+	 */
 	public static class Comparators {
 		 public static Comparator<Counter> NAME = new Comparator<Counter>() {
+			 // sort by name
 				@SuppressLint("DefaultLocale")
 				@Override
 				public int compare(Counter lhs, Counter rhs) {
@@ -101,17 +109,20 @@ public class Counter implements Serializable {
 				}
 		 };
 		 public static Comparator<Counter> DATE = new Comparator<Counter>() {
+			 // sort by creation date (oldest to newest)
 				@Override
 				public int compare(Counter lhs, Counter rhs) {
 					return lhs.getCreationDate().compareTo(rhs.getCreationDate());
 				}
 		 };
 		 public static Comparator<Counter> COUNT = new Comparator<Counter>() {
+			 // sort by total count (biggest to smallest)
 				@Override
 				public int compare(Counter lhs, Counter rhs) {
 					return Double.compare(rhs.getTotalCount(), lhs.getTotalCount());
 				}
 		 };
 	}
+	
 	
 }

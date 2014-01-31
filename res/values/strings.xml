@@ -8,6 +8,7 @@
     <string name="action_reset">Reset counter</string>
     <string name="action_sort">Sort counters</string>
     <string name="action_summary">Counter summaries</string>
+    <string name="action_summaryview">Counter summary</string>
     <string name="action_settings">Settings</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_count">COUNT</string>
@@ -22,6 +23,7 @@
     <string name="dialog_sort_title">Sort counters</string>
     <string name="title_activity_counter_view">View Counter</string>
     <string name="title_activity_counter_summary">Summary</string>
+    <string name="title_summary_minute">By minute</string>
     <string name="title_summary_hour">By hour</string>
     <string name="title_summary_day">By day</string>
     <string name="title_summary_week">By week</string>

@@ -1,5 +1,7 @@
 package com.herasymc.cmput301counter;
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.ListView;
 
 public class CounterSummaryActivity extends FragmentActivity implements
 		ActionBar.OnNavigationListener {
@@ -21,7 +23,7 @@ public class CounterSummaryActivity extends FragmentActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	private CounterList list;
+	private static CounterList list;
 	private int id;
 
 	@Override
@@ -45,6 +47,7 @@ public class CounterSummaryActivity extends FragmentActivity implements
 				new ArrayAdapter<String>(actionBar.getThemedContext(),
 						android.R.layout.simple_list_item_1,
 						android.R.id.text1, new String[] {
+								getString(R.string.title_summary_minute),
 								getString(R.string.title_summary_hour),
 								getString(R.string.title_summary_day),
 								getString(R.string.title_summary_week),
@@ -97,7 +100,8 @@ public class CounterSummaryActivity extends FragmentActivity implements
 		// container view.
 		Fragment fragment = new DummySectionFragment();
 		Bundle args = new Bundle();
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position);
+		args.putInt(DummySectionFragment.ARG_ID_NUMBER, this.id);
 		fragment.setArguments(args);
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).commit();
@@ -114,6 +118,7 @@ public class CounterSummaryActivity extends FragmentActivity implements
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";
+		public static final String ARG_ID_NUMBER = "id_number";
 
 		public DummySectionFragment() {
 		}
@@ -123,10 +128,22 @@ public class CounterSummaryActivity extends FragmentActivity implements
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(
 					R.layout.fragment_counter_summary_dummy, container, false);
-			TextView dummyTextView = (TextView) rootView
+			ListView view = (ListView) rootView
 					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+			ArrayAdapter<String> adapter;
+			if (getArguments().getInt(ARG_ID_NUMBER) == -1) {
+				ArrayList<String> strings = new ArrayList<String>();
+				for (int i = 0; i < list.size(); ++i) {
+					strings.add(list.get(i).getName() + ":");
+					strings.addAll(list.getHistory(i, getArguments().getInt(ARG_SECTION_NUMBER)));
+				}
+				adapter = new ArrayAdapter<String>(getActivity(),
+						android.R.layout.simple_list_item_1, strings);
+			} else {
+				adapter = new ArrayAdapter<String>(getActivity(),
+						android.R.layout.simple_list_item_1, list.getHistory(getArguments().getInt(ARG_ID_NUMBER), getArguments().getInt(ARG_SECTION_NUMBER)));
+			}
+			view.setAdapter(adapter);
 			return rootView;
 		}
 	}

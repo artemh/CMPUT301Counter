@@ -17,8 +17,7 @@ import android.widget.ListView;
  */
 public class CounterListActivity extends Activity implements AddCounterDialogListener, SortCountersDialogListener {
 	
-	private int sortID;
-	private CounterList list;
+	private static CounterList list;
 	private CounterArrayAdapter adapter;
 	private ListView view;
 
@@ -42,6 +41,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	protected void onResume() {
 		super.onResume();
 		list = CounterList.getInstance(getApplicationContext());
+		list.sort();
 		adapter = new CounterArrayAdapter(this, list);
 		view.setAdapter(adapter);
 	}
@@ -99,7 +99,7 @@ public class CounterListActivity extends Activity implements AddCounterDialogLis
 	
 	private void showSortDialog() {
 		FragmentManager manager = getFragmentManager();
-		SortCountersDialogFragment dialog = SortCountersDialogFragment.newInstance(sortID);
+		SortCountersDialogFragment dialog = SortCountersDialogFragment.newInstance(list.getSort());
 		dialog.show(manager, "fragment_sort");
 	}
 }

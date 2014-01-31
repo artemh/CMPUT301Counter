@@ -2,6 +2,7 @@ package com.herasymc.cmput301counter;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -13,11 +14,12 @@ import android.widget.TextView;
 
 public class CounterViewActivity extends Activity implements DeleteCounterDialogListener, EditCounterDialogListener, ResetCounterDialogListener {
 
-	private CounterList list;
+	private static CounterList list;
 	private TextView textViewName;
 	private TextView textViewCount;
 	private Button button;
 	private int id;
+	private int count;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +33,15 @@ public class CounterViewActivity extends Activity implements DeleteCounterDialog
 		textViewCount = (TextView) findViewById(R.id.counter_view_count);
 		button = (Button) findViewById(R.id.button_count);
 		textViewName.setText(list.get(id).getName());
-		textViewCount.setText(Long.toString(list.get(id).getTotalCount()));
+		count = list.get(id).getTotalCount();
+		textViewCount.setText(Long.toString(count));
 		button.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				list.increment(id);
-				textViewCount.setText(Long.toString(list.get(id).getTotalCount()));
+				count++;
+				textViewCount.setText(Long.toString(count));
 			}
 		});
  	}
@@ -72,6 +76,11 @@ public class CounterViewActivity extends Activity implements DeleteCounterDialog
 			case R.id.action_edit:
 				showEditDialog();
 				return true;
+			case R.id.action_summaryview:
+				Intent intent = new Intent(CounterViewActivity.this, CounterSummaryActivity.class);
+				intent.putExtra("id", (long) id);
+	        	startActivity(intent);
+	        	return true;
 			case R.id.action_reset:
 				showResetDialog();
 				return true;
