@@ -244,8 +244,10 @@ public class CounterList {
 	}
 	
 	public void remove(int index) {
+		if (history.get(list.get(index).getID()) != null) {
+			history.remove(list.get(index).getID());
+		}
 		list.remove(index);
-		history.remove(list.get(index).getID());
 		save();
 	}
 	
@@ -270,7 +272,9 @@ public class CounterList {
 	
 	public void reset(int index) {
 		list.get(index).resetCounts();
-		history.get(list.get(index).getID()).clear();
+		if (history.get(list.get(index).getID()) != null) {
+			history.get(list.get(index).getID()).clear();
+		}
 		save();
 	}
 	
