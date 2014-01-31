@@ -19,6 +19,8 @@
  * 
  * AddCounterDialogFragment.java
  * 
+ * Contains the code for the dialog to add counters (used in the CounterList Activity)
+ * 
  * Implemented with help from the Android Developer Guides for Dialogs
  * https://developer.android.com/guide/topics/ui/dialogs.html
  * and from the CodePath DialogFragment tutorial

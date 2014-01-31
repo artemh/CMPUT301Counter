@@ -19,6 +19,8 @@
  * 
  * Counter.java
  * 
+ * This class represents a counter.
+ * 
  */
 
 package com.herasymc.cmput301counter;
@@ -34,16 +36,17 @@ public class Counter implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int count;
 	private int id;
-	private static int idCounter = 0;
+	private static int idCounter = 0;	// unique ID for history
 	private String name;
-	private Date created;
-	private Date reset;
+	private Date created;				// date created
+	private Date reset;					// date reset
 	
 	/* Initialize the counter, sets created/reset dates to now */
 	public Counter(String name) {
 		super();
 		this.name = name;
 		if (name.isEmpty()) {
+			/* don't make blank counters */ 
 			this.name = "New Counter";
 		}
 		count = 0;
@@ -82,6 +85,7 @@ public class Counter implements Serializable {
 		return count;
 	}
 	
+	// check if counter has ever been reset
 	public boolean hasBeenReset() {
 		if (created.equals(reset)) {
 			return false;
@@ -90,6 +94,7 @@ public class Counter implements Serializable {
 		}
 	}
 	
+	//
 	public void resetCounts() {
 		count = 0;
 		reset = new Date();

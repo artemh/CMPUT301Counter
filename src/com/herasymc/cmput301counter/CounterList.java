@@ -19,6 +19,10 @@
  * 
  * CounterList.java
  * 
+ * This class contains a list of counters, and allows
+ * for some basic manipulation (adding, renaming, deleting,
+ * reseting, incrementing and getting counters), and
+ * 
  */
 
 package com.herasymc.cmput301counter;
@@ -117,20 +121,24 @@ public class CounterList {
 	@SuppressWarnings("deprecation")
 	public ArrayList<String> getHistory(int index, int type) {
 		int id = list.get(index).getID();
-
 		String curString;
 		SimpleDateFormat format;
+		Calendar calBegin = Calendar.getInstance();
 		ArrayList<String> counts = new ArrayList<String>();
+		
 		if (list.get(index).hasBeenReset()) {
 			counts.add("NOTE: This counter was reset");
 			counts.add("on " + list.get(index).getResetDate().toLocaleString());
 		}
+		
 		if (list.get(index).getTotalCount() == 0) {
+			/* don't try to run on an empty history */
 			return counts;
 		}
-		Calendar calBegin = Calendar.getInstance();
+		
 		ArrayList<Date> dates = history.get(id);
 		calBegin.setTime(history.get(id).get(0));
+		Calendar calCurrent = (Calendar) calBegin.clone();
 		format = new SimpleDateFormat("MMM dd yyyy HH:mm", Locale.getDefault());
 		curString = format.format(calBegin.getTime());
 		if (type == 1) {
@@ -147,9 +155,15 @@ public class CounterList {
 			format = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 			curString = "Month of " + format.format(calBegin.getTime());
 		}
-		Calendar calCurrent = (Calendar) calBegin.clone();
+		
 		for (int i = 0; i < history.get(id).size(); ) {
+			/* loop through the history */
 			int count = 0;
+			/* 
+			 * compare counter dates to the first counter in the current block,
+			 * until the threshold is exceeded. then, we can format the output
+			 * string for the current block and restart 
+			 */
 			if (type == 0) {
 				while (calBegin.get(Calendar.MINUTE) == calCurrent.get(Calendar.MINUTE) && 
 						calBegin.get(Calendar.HOUR) == calCurrent.get(Calendar.HOUR) && 
@@ -226,15 +240,13 @@ public class CounterList {
 	public void add(String name) {
 		list.add(new Counter(name));
 		sort();
-		saveList(FILENAME, context, list);
-		saveMap(FILENAME2, context, history);
+		save();
 	}
 	
 	public void remove(int index) {
 		list.remove(index);
 		history.remove(list.get(index).getID());
-		saveList(FILENAME, context, list);
-		saveMap(FILENAME2, context, history);
+		save();
 	}
 	
 	public Counter get(int index) {
@@ -258,9 +270,8 @@ public class CounterList {
 	
 	public void reset(int index) {
 		list.get(index).resetCounts();
-		saveList(FILENAME, context, list);
 		history.get(list.get(index).getID()).clear();
-		saveMap(FILENAME2, context, history);
+		save();
 	}
 	
 	public int size() {
@@ -271,20 +282,20 @@ public class CounterList {
 		Collections.sort(list, sortType);
 	}
 	
+	/* Load/save functions are below */
+	
 	public void save() {
 		saveList(FILENAME, context, list);
 		saveMap(FILENAME2, context, history);
 	}
 	
-	/* Load/save functions are below */
-	
 	@SuppressWarnings("unchecked")
-	public <T> ArrayList<T> loadList(String file, Context context) {
-		ArrayList<T> l = null;
+	public ArrayList<Counter> loadList(String file, Context context) {
+		ArrayList<Counter> l = null;
 		try {
 			FileInputStream f = context.openFileInput(file);
 			ObjectInputStream o = new ObjectInputStream(f);
-			l = (ArrayList<T>) o.readObject();
+			l = (ArrayList<Counter>) o.readObject();
 			o.close();
 			f.close();
 		} catch (FileNotFoundException e) {
@@ -295,19 +306,19 @@ public class CounterList {
 			e.printStackTrace();
 		}
 		if (l == null) {
-			return new ArrayList<T>();
+			return new ArrayList<Counter>();
 		} else {
 			return l;
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <K, V> HashMap<K, V> loadMap(String file, Context context) {
-		HashMap<K, V> l = null;
+	public HashMap<Integer, ArrayList<Date>> loadMap(String file, Context context) {
+		HashMap<Integer, ArrayList<Date>> l = null;
 		try {
 			FileInputStream f = context.openFileInput(file);
 			ObjectInputStream o = new ObjectInputStream(f);
-			l = (HashMap<K, V>) o.readObject();
+			l = (HashMap<Integer, ArrayList<Date>>) o.readObject();
 			o.close();
 			f.close();
 		} catch (FileNotFoundException e) {
@@ -318,13 +329,13 @@ public class CounterList {
 			e.printStackTrace();
 		}
 		if (l == null) {
-			return new HashMap<K, V>();
+			return new HashMap<Integer, ArrayList<Date>>();
 		} else {
 			return l;
 		}
 	}
 	
-	public <T> void saveList(String file, Context context, ArrayList<T> list) {
+	public void saveList(String file, Context context, ArrayList<Counter> list) {
 		try {
 			FileOutputStream f = context.openFileOutput(file, Context.MODE_PRIVATE);
 			ObjectOutputStream o = new ObjectOutputStream(f);
@@ -336,7 +347,7 @@ public class CounterList {
 		}
 	}
 	
-	public <K, V> void saveMap(String file, Context context, HashMap<K, V> list) {
+	public void saveMap(String file, Context context, HashMap<Integer, ArrayList<Date>> list) {
 		try {
 			FileOutputStream f = context.openFileOutput(file, Context.MODE_PRIVATE);
 			ObjectOutputStream o = new ObjectOutputStream(f);

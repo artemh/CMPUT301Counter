@@ -1,3 +1,30 @@
+/*
+ * CMPUT 301 Winter 2014 Assignment 1 - Counter App for Android
+ * 
+ * Copyright 2014 Artem Herasymchuk
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ---
+ * 
+ * CounterSummaryActivity.java
+ * 
+ * This Activity is responsible for displaying the summary
+ * of counters to the user, either for one or for all counters,
+ * organized by minute/hour/day/week/month.
+ * 
+ */
+
 package com.herasymc.cmput301counter;
 
 import java.util.ArrayList;
@@ -81,13 +108,6 @@ public class CounterSummaryActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
@@ -98,10 +118,10 @@ public class CounterSummaryActivity extends FragmentActivity implements
 	public boolean onNavigationItemSelected(int position, long id) {
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
-		Fragment fragment = new DummySectionFragment();
+		Fragment fragment = new CounterSummaryFragment();
 		Bundle args = new Bundle();
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position);
-		args.putInt(DummySectionFragment.ARG_ID_NUMBER, this.id);
+		args.putInt(CounterSummaryFragment.ARG_SECTION_NUMBER, position);
+		args.putInt(CounterSummaryFragment.ARG_ID_NUMBER, this.id);
 		fragment.setArguments(args);
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).commit();
@@ -109,10 +129,9 @@ public class CounterSummaryActivity extends FragmentActivity implements
 	}
 
 	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
+	 * This fragment shows the actual summary.
 	 */
-	public static class DummySectionFragment extends Fragment {
+	public static class CounterSummaryFragment extends Fragment {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -120,18 +139,20 @@ public class CounterSummaryActivity extends FragmentActivity implements
 		public static final String ARG_SECTION_NUMBER = "section_number";
 		public static final String ARG_ID_NUMBER = "id_number";
 
-		public DummySectionFragment() {
+		public CounterSummaryFragment() {
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(
-					R.layout.fragment_counter_summary_dummy, container, false);
+					R.layout.fragment_counter_summary, container, false);
 			ListView view = (ListView) rootView
 					.findViewById(R.id.section_label);
 			ArrayAdapter<String> adapter;
+			
 			if (getArguments().getInt(ARG_ID_NUMBER) == -1) {
+				/* build a list of stats of all counters */
 				ArrayList<String> strings = new ArrayList<String>();
 				for (int i = 0; i < list.size(); ++i) {
 					strings.add(list.get(i).getName() + ":");
@@ -140,8 +161,10 @@ public class CounterSummaryActivity extends FragmentActivity implements
 				adapter = new ArrayAdapter<String>(getActivity(),
 						android.R.layout.simple_list_item_1, strings);
 			} else {
+				/* show stats for just one counter */
 				adapter = new ArrayAdapter<String>(getActivity(),
-						android.R.layout.simple_list_item_1, list.getHistory(getArguments().getInt(ARG_ID_NUMBER), getArguments().getInt(ARG_SECTION_NUMBER)));
+						android.R.layout.simple_list_item_1, 
+						list.getHistory(getArguments().getInt(ARG_ID_NUMBER), getArguments().getInt(ARG_SECTION_NUMBER)));
 			}
 			view.setAdapter(adapter);
 			return rootView;

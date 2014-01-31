@@ -1,3 +1,33 @@
+/*
+ * CMPUT 301 Winter 2014 Assignment 1 - Counter App for Android
+ * 
+ * Copyright 2014 Artem Herasymchuk
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ---
+ * 
+ * EditCounterDialogFragment.java
+ * 
+ * Contains the code for the dialog to edit counters (used in the CounterView Activity)
+ * 
+ * Implemented with help from the Android Developer Guides for Dialogs
+ * https://developer.android.com/guide/topics/ui/dialogs.html
+ * and from the CodePath DialogFragment tutorial
+ * https://github.com/thecodepath/android_guides/wiki/Using-DialogFragment
+ * 
+ */
+
 package com.herasymc.cmput301counter;
 
 import android.app.AlertDialog;
