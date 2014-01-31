@@ -39,19 +39,19 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.SparseArray;
 
 public class CounterList {
 	
 	private static final String FILENAME = "list.dat";
 	private static final String FILENAME2 = "history.dat";
 	private ArrayList<Counter> list;
-	private HashMap<Integer, ArrayList<Date>> history;
+	private SparseArray<ArrayList<Date>> history;
 	private Context context;
 	private Comparator<Counter> sortType;
 	private static CounterList instance = null;
@@ -261,7 +261,7 @@ public class CounterList {
 	public void increment(int index) {
 		list.get(index).addCount();
 		saveList(FILENAME, context, list);
-		if (!(history.containsKey(list.get(index).getID()))) {
+		if (history.get(list.get(index).getID()) == null) {
 			history.put(list.get(index).getID(), new ArrayList<Date>());
 		}
 		history.get(list.get(index).getID()).add(new Date());
@@ -313,12 +313,12 @@ public class CounterList {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<Integer, ArrayList<Date>> loadMap(String file, Context context) {
-		HashMap<Integer, ArrayList<Date>> l = null;
+	public SparseArray<ArrayList<Date>> loadMap(String file, Context context) {
+		SparseArray<ArrayList<Date>> l = null;
 		try {
 			FileInputStream f = context.openFileInput(file);
 			ObjectInputStream o = new ObjectInputStream(f);
-			l = (HashMap<Integer, ArrayList<Date>>) o.readObject();
+			l = (SparseArray<ArrayList<Date>>) o.readObject();
 			o.close();
 			f.close();
 		} catch (FileNotFoundException e) {
@@ -329,7 +329,7 @@ public class CounterList {
 			e.printStackTrace();
 		}
 		if (l == null) {
-			return new HashMap<Integer, ArrayList<Date>>();
+			return new SparseArray<ArrayList<Date>>();
 		} else {
 			return l;
 		}
@@ -347,7 +347,7 @@ public class CounterList {
 		}
 	}
 	
-	public void saveMap(String file, Context context, HashMap<Integer, ArrayList<Date>> list) {
+	public void saveMap(String file, Context context, SparseArray<ArrayList<Date>> list) {
 		try {
 			FileOutputStream f = context.openFileOutput(file, Context.MODE_PRIVATE);
 			ObjectOutputStream o = new ObjectOutputStream(f);
