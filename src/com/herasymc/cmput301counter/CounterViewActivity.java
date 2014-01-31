@@ -60,7 +60,7 @@ public class CounterViewActivity extends Activity implements DeleteCounterDialog
 		textViewCount = (TextView) findViewById(R.id.counter_view_count);
 		button = (Button) findViewById(R.id.button_count);
 		textViewName.setText(list.get(id).getName());
-		count = list.get(id).getTotalCount();
+		count = list.get(id).getCount();
 		textViewCount.setText(Long.toString(count));
 		button.setOnClickListener(new OnClickListener() {
 			
@@ -128,7 +128,7 @@ public class CounterViewActivity extends Activity implements DeleteCounterDialog
 	@Override
 	public void onFinishResetDialog() {
 		list.reset(id);
-		textViewCount.setText(Long.toString(list.get(id).getTotalCount()));
+		textViewCount.setText(Long.toString(list.get(id).getCount()));
 	}
 	
 	@Override

@@ -54,7 +54,7 @@ public class CounterArrayAdapter extends ArrayAdapter<Counter> {
 		TextView textViewDate = (TextView) view.findViewById(R.id.counterDate);
 		textViewDate.setText(objects.get(position).getCreationDate().toLocaleString());
 		TextView textViewCount = (TextView) view.findViewById(R.id.counterCount);
-		textViewCount.setText(objects.get(position).getTotalCount() + " >");
+		textViewCount.setText(objects.get(position).getCount() + " >");
 		return view;
 	}
 

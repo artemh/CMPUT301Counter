@@ -131,7 +131,7 @@ public class CounterList {
 			counts.add("on " + list.get(index).getResetDate().toLocaleString());
 		}
 		
-		if (list.get(index).getTotalCount() == 0) {
+		if (list.get(index).getCount() == 0) {
 			/* don't try to run on an empty history */
 			return counts;
 		}

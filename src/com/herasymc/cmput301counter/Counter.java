@@ -81,7 +81,7 @@ public class Counter implements Serializable {
 	}
 	
 	// Get counter value
-	public int getTotalCount() {
+	public int getCount() {
 		return count;
 	}
 	
@@ -124,7 +124,7 @@ public class Counter implements Serializable {
 			 // sort by total count (biggest to smallest)
 				@Override
 				public int compare(Counter lhs, Counter rhs) {
-					return Double.compare(rhs.getTotalCount(), lhs.getTotalCount());
+					return Double.compare(rhs.getCount(), lhs.getCount());
 				}
 		 };
 	}
