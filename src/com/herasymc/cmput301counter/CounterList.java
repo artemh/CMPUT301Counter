@@ -290,7 +290,7 @@ public class CounterList {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<Counter> loadList(String file, Context context) {
+	private ArrayList<Counter> loadList(String file, Context context) {
 		ArrayList<Counter> l = null;
 		try {
 			FileInputStream f = context.openFileInput(file);
@@ -313,7 +313,7 @@ public class CounterList {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public SparseArray<ArrayList<Date>> loadMap(String file, Context context) {
+	private SparseArray<ArrayList<Date>> loadMap(String file, Context context) {
 		SparseArray<ArrayList<Date>> l = null;
 		try {
 			FileInputStream f = context.openFileInput(file);
@@ -335,7 +335,7 @@ public class CounterList {
 		}
 	}
 	
-	public void saveList(String file, Context context, ArrayList<Counter> list) {
+	private void saveList(String file, Context context, ArrayList<Counter> list) {
 		try {
 			FileOutputStream f = context.openFileOutput(file, Context.MODE_PRIVATE);
 			ObjectOutputStream o = new ObjectOutputStream(f);
@@ -347,7 +347,7 @@ public class CounterList {
 		}
 	}
 	
-	public void saveMap(String file, Context context, SparseArray<ArrayList<Date>> list) {
+	private void saveMap(String file, Context context, SparseArray<ArrayList<Date>> list) {
 		try {
 			FileOutputStream f = context.openFileOutput(file, Context.MODE_PRIVATE);
 			ObjectOutputStream o = new ObjectOutputStream(f);
